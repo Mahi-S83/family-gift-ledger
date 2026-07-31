@@ -1,3 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --cream: #FBF1DE;
+  --paper: #FFFCF5;
+  --maroon: #7A1730;
+  --maroon-deep: #5A0F22;
+  --marigold: #FFB100;
+  --marigold-deep: #F2971D;
+  --mehendi: #3F6B35;
+  --mehendi-deep: #2C4D26;
+  --gold: #C9A227;
+  --ink: #2B1B17;
+  --ink-soft: #6B584F;
+  --line: rgba(43, 27, 23, 0.12);
+  --shadow: 0 10px 30px rgba(122, 23, 48, 0.10);
+}
+
+body {
+  background: var(--cream);
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(255, 177, 0, 0.16), transparent 40%),
+    radial-gradient(circle at 92% 88%, rgba(122, 23, 48, 0.10), transparent 45%);
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--marigold);
+  border-radius: 4px;
+}
+
+/* Garland divider animation */
+.garland-svg {
+  width: 100%;
+  height: 22px;
+  display: block;
+}
+
+/* Card hover effects */
+.invite-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.invite-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(122, 23, 48, 0.18);
+}
+
+/* Match card animation */
+.match-card {
+  animation: slideDown 0.25s ease;
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Screen transitions */
+.screen {
+  animation: fadeUp 0.35s ease;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Timer pulse */
+.timer-pulse::before {
+  content: "●";
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}

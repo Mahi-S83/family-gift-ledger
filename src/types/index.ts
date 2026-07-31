@@ -4,6 +4,7 @@ export interface Wedding {
   bride: string;
   groom: string;
   date: string;
+  city?: string;
 }
 
 export interface Guest {
@@ -22,10 +23,4 @@ export interface Gift {
   description?: string;
   photo?: string;
   notes?: string;
-}
-
-export interface SearchResult {
-  type: 'guest' | 'gift';
-  data: any;
-  matchScore?: number;
 }

@@ -8,12 +8,10 @@ export interface SearchFilters {
   searchText?: string;
 }
 
-// Simulate AI parsing of natural language
 export const parseNaturalQuery = (query: string): SearchFilters => {
   const filters: SearchFilters = {};
   const lower = query.toLowerCase();
 
-  // Check for wedding names
   const weddingMatch = lower.match(/neha|aman|diya|wedding/i);
   if (weddingMatch) {
     if (weddingMatch[0].includes('neha')) filters.weddingId = 'w1';
@@ -21,13 +19,11 @@ export const parseNaturalQuery = (query: string): SearchFilters => {
     else if (weddingMatch[0].includes('diya')) filters.weddingId = 'w3';
   }
 
-  // Check for relations
   const relationMatch = lower.match(/bua|chacha|mama|friend|colleague/i);
   if (relationMatch) {
     filters.relation = relationMatch[0].charAt(0).toUpperCase() + relationMatch[0].slice(1);
   }
 
-  // Check for amounts
   const amountMatch = lower.match(/above\s*([0-9]+)|more than\s*([0-9]+)/i);
   if (amountMatch) {
     const amount = parseInt(amountMatch[1] || amountMatch[2]);

@@ -1,75 +1,66 @@
 import React, { useState } from 'react';
 import { DataProvider, useData } from './context/DataContext';
-import { AddGiftForm } from './components/AddGiftForm';
-import { SearchInterface } from './components/SearchInterface';
-
-// Add this after the header section
-const { guests, gifts } = useData();
-const totalGifts = gifts.length;
-const totalCash = gifts.reduce((sum, g) => sum + (g.amount || 0), 0);
-const uniqueGuests = guests.length;
-
-<div className="flex gap-4 text-sm text-gray-600">
-  <span>👥 {uniqueGuests} Guests</span>
-  <span>🎁 {totalGifts} Gifts</span>
-  <span>💰 ₹{totalCash.toLocaleString()}</span>
-</div>
+import { WeddingList } from './components/WeddingList';
+import { AddGift } from './components/AddGift';
+import { SearchTimeline } from './components/SearchTimeline';
+import { Garland } from './components/Garland';
 
 const AppContent: React.FC = () => {
+  const [activeScreen, setActiveScreen] = useState<'weddings' | 'add' | 'search'>('weddings');
   const [selectedWeddingId, setSelectedWeddingId] = useState('w1');
-  const [view, setView] = useState<'add' | 'search'>('add');
-  const [refreshKey, setRefreshKey] = useState(0);
   const { weddings } = useData();
+  const selectedWedding = weddings.find(w => w.id === selectedWeddingId);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-marigold to-maroon flex items-center justify-center shadow-lg">
+            <span className="font-['Fraunces'] text-paper text-xl font-bold">FG</span>
+          </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Family Gift Ledger</h1>
-            <div className="flex gap-2 mt-1">
-              <select
-                value={selectedWeddingId}
-                onChange={(e) => setSelectedWeddingId(e.target.value)}
-                className="px-3 py-1 border border-gray-300 rounded-md text-sm"
-              >
-                {weddings.map(w => (
-                  <option key={w.id} value={w.id}>{w.name}</option>
-                ))}
-              </select>
-            </div>
+            <h1 className="font-['Fraunces'] text-2xl font-bold text-maroon-deep">Family Gift Ledger</h1>
+            <span className="text-xs text-ink-soft uppercase tracking-wider">Every shaadi, remembered</span>
           </div>
-          <div className="flex gap-2">
+        </div>
+
+        <div className="flex gap-1.5 bg-paper p-1.5 rounded-xl border border-line shadow-md">
+          {[
+            { id: 'weddings', label: 'Weddings' },
+            { id: 'add', label: 'Add Gift' },
+            { id: 'search', label: 'Search & Timeline' }
+          ].map(screen => (
             <button
-              onClick={() => setView('add')}
-              className={`px-4 py-2 rounded-lg font-medium ${
-                view === 'add' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+              key={screen.id}
+              onClick={() => setActiveScreen(screen.id as any)}
+              className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
+                activeScreen === screen.id
+                  ? 'bg-maroon text-white shadow-lg shadow-maroon/35'
+                  : 'text-ink-soft hover:text-maroon'
               }`}
             >
-              Add Gift
+              {screen.label}
             </button>
-            <button
-              onClick={() => setView('search')}
-              className={`px-4 py-2 rounded-lg font-medium ${
-                view === 'search' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-              }`}
-            >
-              Search
-            </button>
-          </div>
+          ))}
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        {view === 'add' ? (
-          <AddGiftForm 
-            weddingId={selectedWeddingId} 
-            onGiftAdded={() => setRefreshKey(prev => prev + 1)}
+      <Garland />
+
+      <div className="mt-6">
+        {activeScreen === 'weddings' && (
+          <WeddingList
+            selectedWeddingId={selectedWeddingId}
+            onSelectWedding={setSelectedWeddingId}
           />
-        ) : (
-          <SearchInterface />
         )}
-      </main>
+        {activeScreen === 'add' && selectedWedding && (
+          <AddGift wedding={selectedWedding} />
+        )}
+        {activeScreen === 'search' && (
+          <SearchTimeline />
+        )}
+      </div>
     </div>
   );
 };
