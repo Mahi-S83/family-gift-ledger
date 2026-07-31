@@ -4,6 +4,9 @@ import { parseNaturalQuery, searchGifts } from '../services/searchServices';
 import { Search, X, Users } from 'lucide-react';
 import { EmptyState } from './EmptyStates';
 
+// In handleSearch function, remove 'weddings' from searchGifts call:
+
+
 export const SearchTimeline: React.FC = () => {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<any>({});
@@ -28,7 +31,7 @@ export const SearchTimeline: React.FC = () => {
     }
     
     setShowAmbiguousPrompt(false);
-    const searchResults = searchGifts(parsed, gifts, guests, weddings);
+    const searchResults = searchGifts(parsed, gifts, guests);
     setResults(searchResults);
     
     if (searchResults.length > 0) {

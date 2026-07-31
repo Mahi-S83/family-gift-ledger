@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gift, Users, Search, Calendar } from 'lucide-react';
+import { Gift, Search, Calendar } from 'lucide-react';
 
 interface EmptyStateProps {
   type: 'no-weddings' | 'no-gifts' | 'no-results';

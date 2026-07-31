@@ -1,4 +1,4 @@
-import { Gift, Guest, Wedding } from '../types';
+import { Gift, Guest } from '../types';
 
 export interface SearchFilters {
   relation?: string;
@@ -36,8 +36,7 @@ export const parseNaturalQuery = (query: string): SearchFilters => {
 export const searchGifts = (
   filters: SearchFilters,
   gifts: Gift[],
-  guests: Guest[],
-  weddings: Wedding[]
+  guests: Guest[]
 ): Gift[] => {
   let result = [...gifts];
 
